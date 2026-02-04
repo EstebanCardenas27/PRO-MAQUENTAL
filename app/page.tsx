@@ -2,15 +2,14 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import {
-  Waves,
+import {  
   Leaf,
   Droplets,
   Users,
   MapPin,
   Phone,
   Mail,
-  MessageCircle,
+  MessageCircleMore,
   ChevronDown,
   CheckCircle,
   Sprout,
@@ -91,11 +90,15 @@ const Header = () => {
               <a
                 key={href}
                 href={href}
-                className={`transition-colors ${
-                  activeSection === href.replace("#", "")
-                    ? "text-primary font-bold"
-                    : "text-foreground hover:text-primary"
-                }`}
+                className={`relative px-1 transition-colors
+                  after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-full
+                  after:bg-primary after:origin-left after:transition-transform
+                  ${
+                    activeSection === href.replace("#", "")
+                      ? "text-primary font-bold after:scale-x-100"
+                      : "text-foreground after:scale-x-0 hover:text-primary hover:after:scale-x-100"
+                  }
+                `}
               >
                 {label}
               </a>
@@ -133,11 +136,15 @@ const Header = () => {
                   key={href}
                   href={href}
                   onClick={() => setMenuOpen(false)}
-                  className={`transition-colors ${
-                    activeSection === href.replace("#", "")
-                      ? "text-primary font-bold"
-                      : "text-foreground hover:text-primary"
-                  }`}
+                  className={`relative transition-colors
+                    after:absolute after:left-0 after:-bottom-1 after:h-[3px] after:w-full
+                    after:bg-primary after:origin-left after:transition-transform
+                    ${
+                      activeSection === href.replace("#", "")
+                        ? "text-primary font-bold after:scale-x-100"
+                        : "text-foreground after:scale-x-0"
+                    }
+                  `}
                 >
                   {label}
                 </a>
@@ -163,45 +170,76 @@ const Header = () => {
 export default function MaquentalLanding() {
   const [currentOriginImage, setCurrentOriginImage] = useState(0)
   const [isScientificExpanded, setIsScientificExpanded] = useState(false)
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const nextSlide = () =>
+  setCurrentSlide((prev) => (prev + 1) % slides.length);
+
+  const prevSlide = () =>
+  setCurrentSlide((prev) =>
+    prev === 0 ? slides.length - 1 : prev - 1
+  );
   const [selectedItem, setSelectedItem] = useState<null | { src: string; type: string; alt?: string }>(null);
 
+  const slides = [
+  {
+    type: "image",
+    src: "/galeria/producto.webp",
+    alt: "AgroAlgas producto",
+  },
+  {
+    type: "video",
+    src: "/videos/video_1.mp4",
+  },
+  {
+    type: "video",
+    src: "/videos/video_2.mp4",
+  },
+  {
+    type: "video",
+    src: "/videos/video_3.mp4",
+  },
+  {
+    type: "video",
+    src: "/videos/video_4.mp4",
+  },
+];
+
   const originImages = [
-    { src: "/galeria/origen/origen.jpeg", alt: "Origen", type: "image" },
-    { src: "/galeria/origen/origen_1.jpeg", alt: "Origen", type: "image" },
-    { src: "/galeria/origen/origen_2.jpeg", alt: "Origen", type: "image" },
-    { src: "/galeria/origen/origen_3.jpeg", alt: "Origen", type: "image" },
-    { src: "/galeria/origen/origen_4.jpeg", alt: "Origen", type: "image" },
-    { src: "/galeria/origen/origen_5.jpeg", alt: "Origen", type: "image" },
-    { src: "/galeria/origen/origen_6.jpeg", alt: "Origen", type: "image" },
-    { src: "/galeria/origen/origen_7.jpeg", alt: "Origen", type: "image" },
-    { src: "/galeria/origen/origen_8.jpeg", alt: "Origen", type: "image" },
-    { src: "/galeria/origen/origen_9.jpeg", alt: "Origen", type: "image" },
-    // { src: "/mehuin-chile-coastal-village-fishing.jpg", alt: "Mehuín costa" },
-    // { src: "/mehuin-coast-chile-beach.jpg", alt: "Playa de Mehuín" },
-    // { src: "/ocean-waves-seaweed-underwater.jpg", alt: "Algas bajo el agua" },
+    { src: "/galeria/origen/origen.webp", alt: "Origen", type: "image" },
+    { src: "/galeria/origen/origen_1.webp", alt: "Origen", type: "image" },
+    { src: "/galeria/origen/origen_2.webp", alt: "Origen", type: "image" },
+    { src: "/galeria/origen/origen_3.webp", alt: "Origen", type: "image" },
+    { src: "/galeria/origen/origen_4.webp", alt: "Origen", type: "image" },
+    { src: "/galeria/origen/origen_5.webp", alt: "Origen", type: "image" },
+    { src: "/galeria/origen/origen_6.webp", alt: "Origen", type: "image" },
+    { src: "/galeria/origen/origen_7.webp", alt: "Origen", type: "image" },
+    { src: "/galeria/origen/origen_8.webp", alt: "Origen", type: "image" },
+    { src: "/galeria/origen/origen_9.webp", alt: "Origen", type: "image" },
   ]
 
   const galleryItems = [
-    { src: "/galeria/galaria_1.jpeg", alt: "Algas marinas", type: "image" },
-    { src: "/galeria/galeria_2.jpeg", alt: "Algas marinas", type: "image" },
-    { src: "/galeria/galeria_3.jpeg", alt: "Algas marinas", type: "image" },
-    { src: "/galeria/galeria_4.jpeg", alt: "Algas marinas", type: "image" },
-    { src: "/galeria/galeria_5.jpeg", alt: "Algas marinas", type: "image" },
-    { src: "/galeria/galeria_6.jpeg", alt: "Algas marinas", type: "image" },
-    { src: "/galeria/galeria_7.jpeg", alt: "Algas marinas", type: "image" },
-    { src: "/galeria/galeria_1_1.jpeg", alt: "Algas marinas", type: "image" },
-    { src: "/galeria/galeria_8.jpeg", alt: "Algas marinas", type: "image" },
-    { src: "/galeria/galeria_9.jpeg", alt: "Algas marinas", type: "image" },
-    { src: "/galeria/galeria_10.jpeg", alt: "Algas marinas", type: "image" },
-    { src: "/galeria/galeria_11.jpeg", alt: "Algas marinas", type: "image" },
-    { src: "/galeria/galeria_12.jpeg", alt: "Algas marinas", type: "image" },
-    { src: "/galeria/galeria_13.jpeg", alt: "Algas marinas", type: "image" },
-    { src: "/galeria/galeria_14.jpeg", alt: "Algas marinas", type: "image" },
-    { src: "/galeria/galeria_15.jpeg", alt: "Algas marinas", type: "image" },
-    { src: "/galeria/galeria_16.jpeg", alt: "Algas marinas", type: "image" },
-    { src: "/galeria/galeria_18.jpeg", alt: "Algas marinas", type: "image" },
-    // { src: "/galeria/mehuin-coast-chile-beach.jpg", alt: "Costa de Mehuín", type: "image" },
-    // { src: "/galeria/recoleccion.mp4", alt: "Proceso de recolección", type: "video" },
+    { src: "/galeria/galeria_19.webp", alt: "Algas marinas", type: "image" },
+    { src: "/galeria/galeria_20.webp", alt: "Algas marinas", type: "image" },
+    { src: "/galeria/galeria_21.webp", alt: "Algas marinas", type: "image" },
+    { src: "/galeria/galeria_1.webp", alt: "Algas marinas", type: "image" },
+    { src: "/galeria/galeria_2.webp", alt: "Algas marinas", type: "image" },
+    { src: "/galeria/galeria_3.webp", alt: "Algas marinas", type: "image" },
+    { src: "/galeria/galeria_4.webp", alt: "Algas marinas", type: "image" },
+    { src: "/galeria/galeria_5.webp", alt: "Algas marinas", type: "image" },
+    { src: "/galeria/galeria_6.webp", alt: "Algas marinas", type: "image" },
+    { src: "/galeria/galeria_7.webp", alt: "Algas marinas", type: "image" },
+    { src: "/galeria/galeria_1_1.webp", alt: "Algas marinas", type: "image" },
+    { src: "/galeria/galeria_8.webp", alt: "Algas marinas", type: "image" },
+    { src: "/galeria/galeria_9.webp", alt: "Algas marinas", type: "image" },
+    { src: "/galeria/galeria_10.webp", alt: "Algas marinas", type: "image" },
+    { src: "/galeria/galeria_11.webp", alt: "Algas marinas", type: "image" },
+    { src: "/galeria/galeria_12.webp", alt: "Algas marinas", type: "image" },
+    { src: "/galeria/galeria_13.webp", alt: "Algas marinas", type: "image" },
+    { src: "/galeria/galeria_14.webp", alt: "Algas marinas", type: "image" },
+    { src: "/galeria/galeria_15.webp", alt: "Algas marinas", type: "image" },
+    { src: "/galeria/galeria_16.webp", alt: "Algas marinas", type: "image" },
+    { src: "/galeria/galeria_18.webp", alt: "Algas marinas", type: "image" },    
   ];
 
   const fadeInUp = {
@@ -277,7 +315,7 @@ export default function MaquentalLanding() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a href="#origen">
-                <Button size="lg" className="bg-white text-ocean hover:bg-sand text-lg px-8">
+                <Button size="lg" className="bg-white text-ocean hover:bg-sand text-lg px-8 cursor-pointer">
                   Conocer Más
                 </Button>
               </a>
@@ -285,7 +323,7 @@ export default function MaquentalLanding() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-white text-white hover:bg-white/10 text-lg px-8 bg-transparent"
+                  className="border-white text-white hover:bg-white/10 text-lg px-8 bg-transparent cursor-pointer"
                 >
                   Ver Beneficios
                 </Button>
@@ -316,13 +354,71 @@ export default function MaquentalLanding() {
 
           <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
             <motion.div {...fadeInUp}>
-              <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-2xl">
-                <Image
-                  src="/galeria/producto.jpg"
-                  alt="Agroalgas producto"
-                  fill
-                  className="object-cover"
-                />
+              <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-2xl bg-black">
+
+                {/* Slide actual */}
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentSlide}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="absolute inset-0"
+                  >
+                    {slides[currentSlide].type === "image" ? (
+                      <Image
+                        src={slides[currentSlide].src}
+                        alt={slides[currentSlide].alt ?? "AgroAlgas"}
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <video
+                        src={slides[currentSlide].src}
+                        className="w-full h-full object-cover"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                      />
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+
+                <button
+                  onClick={prevSlide}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-10
+                            bg-white/60 hover:bg-white text-black
+                            rounded-full p-2 transition cursor-pointer"
+                >
+                  <ChevronLeft size={28} />
+                </button>
+
+                <button
+                  onClick={nextSlide}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-10
+                            bg-white/60 hover:bg-white text-black
+                            rounded-full p-2 transition cursor-pointer"
+                >
+                  <ChevronRight size={28} />
+                </button>
+
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+                  {slides.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentSlide(index)}
+                      className={`w-3 h-3 rounded-full transition cursor-pointer
+                        ${
+                          index === currentSlide
+                            ? "bg-white"
+                            : "bg-white/50 hover:bg-white/80"
+                        }
+                      `}
+                    />
+                  ))}
+                </div>
               </div>
             </motion.div>
 
@@ -423,7 +519,7 @@ export default function MaquentalLanding() {
               },
             ].map((benefit, index) => (
               <motion.div key={index} variants={fadeInUp}>
-                <Card className="h-full hover:shadow-lg transition-shadow border-2 hover:border-primary/20">
+                <Card className="h-full hover:shadow-lg transition-shadow border-2 hover:border-primary/20 p-0">
                   <CardContent className="p-6 flex flex-col items-center text-center">
                     <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                       <benefit.icon className="w-7 h-7 text-primary" />
@@ -443,7 +539,7 @@ export default function MaquentalLanding() {
         id="origen"
         className="py-20 bg-gradient-to-br from-ocean-deep to-ocean text-white relative overflow-hidden"
       >
-        <div className="absolute inset-0 bg-[url('/galeria/origen/paralax.jpeg')] bg-cover bg-center opacity-20" />
+        <div className="absolute inset-0 bg-[url('/galeria/paralax.webp')] bg-cover bg-center opacity-20" />
 
         <div className="container mx-auto px-4 relative z-10">
           <motion.div {...fadeInUp} className="text-center mb-16">
@@ -467,14 +563,14 @@ export default function MaquentalLanding() {
               {/* Carousel Controls */}
               <button
                 onClick={prevOriginImage}
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-lg transition-all"
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-lg transition-all cursor-pointer"
                 aria-label="Imagen anterior"
               >
                 <ChevronLeft className="w-6 h-6 text-ocean-deep" />
               </button>
               <button
                 onClick={nextOriginImage}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-lg transition-all"
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-lg transition-all cursor-pointer"
                 aria-label="Siguiente imagen"
               >
                 <ChevronRight className="w-6 h-6 text-ocean-deep" />
@@ -565,9 +661,10 @@ export default function MaquentalLanding() {
         </div>
       </section>
 
+      {/* Scientific Backing */}      
       <section id="cientifico" className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <motion.div {...fadeInUp} className="text-center mb-16">
+          <motion.div {...fadeInUp} className="text-center lg:mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4 text-primary">Respaldo Científico</h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto text-balance leading-relaxed">
               La ciencia detrás del poder de las algas marinas
@@ -578,9 +675,9 @@ export default function MaquentalLanding() {
             <div className="grid md:grid-cols-2 gap-12 items-start">
               {/* Left: Image */}
               <motion.div {...fadeInUp} className="md:sticky top-24">
-                <div className="relative h-[600px] rounded-2xl overflow-hidden shadow-2xl">
+                <div className="relative h-[630px] rounded-2xl overflow-hidden shadow-2xl">
                   <Image
-                    src="/galeria/analisis.png"
+                    src="/galeria/analisis.webp"
                     alt="Investigación científica de algas"
                     fill
                     className="object-contain"
@@ -599,7 +696,7 @@ export default function MaquentalLanding() {
 
               {/* Right: Expandable Content */}
               <motion.div {...fadeInUp} className="space-y-6">
-                <Card className="border-2 border-primary/20">
+                <Card className="border-2 border-primary/20 ">
                   <CardContent className="p-6">
                     <div className="flex items-start gap-4 mb-4">
                       <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -661,7 +758,7 @@ export default function MaquentalLanding() {
                     <Button
                       onClick={() => setIsScientificExpanded(!isScientificExpanded)}
                       variant="outline"
-                      className="w-full mt-6 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                      className="w-full mt-6 border-primary text-primary hover:bg-primary hover:text-primary-foreground cursor-pointer"
                     >
                       {isScientificExpanded ? (
                         <>
@@ -739,7 +836,7 @@ export default function MaquentalLanding() {
             },
             ].map((testimonial, index) => (
               <motion.div key={index} variants={fadeInUp}>
-                <Card className="h-full hover:shadow-lg transition-shadow flex flex-col">
+                <Card className="h-full hover:shadow-lg transition-shadow flex flex-col py-0">
                   <CardContent className="p-6 flex flex-col items-center text-center">
                     {/* Avatar */}
                     <div className="relative w-16 h-16 rounded-full overflow-hidden bg-muted mb-4">
@@ -776,12 +873,13 @@ export default function MaquentalLanding() {
         </div>
       </section>
 
-
       {/* Partners Section */}
       <section className="py-20 bg-muted" id="aliados">
         <div className="container mx-auto px-4">
           <motion.div {...fadeInUp} className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-primary">Nuestros Aliados</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-primary">
+              Nuestros Aliados
+            </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto text-balance leading-relaxed">
               Trabajamos junto a organizaciones que apoyan el desarrollo rural y sostenible
             </p>
@@ -794,78 +892,102 @@ export default function MaquentalLanding() {
             viewport={{ once: true }}
             className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto"
           >
-            {/* Tarjeta 1 - MuCech */}
+            {/* Tarjeta 1 - MUCECH */}
             <motion.div variants={fadeInUp}>
-              <Card className="h-full hover:shadow-xl transition-shadow overflow-hidden">
-                <div className="relative h-48 bg-gradient-to-br from-primary/20 to-primary/5">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Image
-                      src="/galeria/mucech.png" 
-                      alt="MUCECH"
-                      fill
-                      className="object-contain"
-                    />
+              <a
+                href="https://www.mucech.cl"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block h-full"
+              >
+                <Card className="h-full cursor-pointer hover:shadow-xl hover:scale-[1.02] transition-all overflow-hidden py-0 gap-0">
+                  <div className="relative h-48 bg-gradient-to-br from-primary/20 to-primary/5">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Image
+                        src="/galeria/mucech.webp"
+                        alt="MUCECH"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
                   </div>
-                </div>
-                <CardContent className="p-6">                  
-                  <h3 className="text-2xl font-bold text-center mb-2">MUCECH</h3>
-                  <p className="text-center text-muted-foreground mb-4 leading-relaxed">
-                    La Mesa Campesina de Chile es una organización que representa a pequeños agricultores y promueve la
-                    agricultura familiar sostenible en todo el país.
-                  </p>
-                </CardContent>
-              </Card>
+                  <CardContent className="p-6">
+                    <h3 className="text-2xl font-bold text-center mb-2">MUCECH</h3>
+                    <p className="text-center text-muted-foreground leading-relaxed">
+                      La Mesa Campesina de Chile es una organización que representa a pequeños
+                      agricultores y promueve la agricultura familiar sostenible en todo el país.
+                    </p>
+                  </CardContent>
+                </Card>
+              </a>
             </motion.div>
 
             {/* Tarjeta 2 - Expo Mundo Rural */}
             <motion.div variants={fadeInUp}>
-              <Card className="h-full hover:shadow-xl transition-shadow overflow-hidden">
-                <div className="relative h-48 bg-gradient-to-br from-secondary/20 to-secondary/5">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Image
-                      src="/galeria/expomundorural.png"
-                      alt="Fedafruc"
-                      fill
-                      className="object-contain"
-                    />
+              <a
+                href="https://expomundoruralindap.cl/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block h-full"
+              >
+                <Card className="h-full cursor-pointer hover:shadow-xl hover:scale-[1.02] transition-all overflow-hidden py-0 gap-0">
+                  <div className="relative h-48 bg-gradient-to-br from-secondary/20 to-secondary/5">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Image
+                        src="/galeria/expomundorural.webp"
+                        alt="Expo Mundo Rural"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
                   </div>
-                </div>
-                <CardContent className="p-6">                  
-                  <h3 className="text-2xl font-bold text-center mb-2">Expo Mundo Rural</h3>
-                  <p className="text-center text-muted-foreground mb-4 leading-relaxed">
-                    La feria más importante de agricultura sostenible en Chile, donde se reúnen productores, innovadores
-                    y consumidores comprometidos con el campo.
-                  </p>
-                </CardContent>
-              </Card>
+                  <CardContent className="p-6">
+                    <h3 className="text-2xl font-bold text-center mb-2">
+                      Expo Mundo Rural
+                    </h3>
+                    <p className="text-center text-muted-foreground leading-relaxed">
+                      La feria más importante de agricultura sostenible en Chile, donde se reúnen
+                      productores, innovadores y consumidores comprometidos con el campo.
+                    </p>
+                  </CardContent>
+                </Card>
+              </a>
             </motion.div>
 
             {/* Tarjeta 3 - Fedafruc */}
             <motion.div variants={fadeInUp}>
-              <Card className="h-full hover:shadow-xl transition-shadow overflow-hidden">
-                <div className="relative h-48 bg-gradient-to-br from-accent/20 to-accent/5">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Image
-                      src="/galeria/fedafruc.png" 
-                      alt="Fedafruc"
-                      fill
-                      className="object-contain"
-                    />
+              <a
+                href="https://www.fedafruc.cl"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block h-full"
+              >
+                <Card className="h-full cursor-pointer hover:shadow-xl hover:scale-[1.02] transition-all overflow-hidden py-0 gap-0">
+                  <div className="relative h-48 bg-gradient-to-br from-accent/20 to-accent/5">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Image
+                        src="/galeria/fedafruc.webp"
+                        alt="Fedafruc"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
                   </div>
-                </div>
-                <CardContent className="p-6">                  
-                  <h3 className="text-2xl font-bold text-center mb-2">Fedafruc</h3>
-                  <p className="text-center text-muted-foreground mb-4 leading-relaxed">
-                    Federación de productores de frutas de la Región de Los Ríos que fomenta la innovación y sostenibilidad en los huertos familiares y comerciales.
-                  </p>
-                </CardContent>
-              </Card>
+                  <CardContent className="p-6">
+                    <h3 className="text-2xl font-bold text-center mb-2">Fedafruc</h3>
+                    <p className="text-center text-muted-foreground leading-relaxed">
+                      Federación de productores de frutas de la Región de Los Ríos que fomenta la
+                      innovación y sostenibilidad en los huertos familiares y comerciales.
+                    </p>
+                  </CardContent>
+                </Card>
+              </a>
             </motion.div>
           </motion.div>
         </div>
       </section>
 
-
+      {/* Gallery Section */}      
       <section id="galeria" className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <motion.div {...fadeInUp} className="text-center mb-16">
@@ -958,7 +1080,7 @@ export default function MaquentalLanding() {
 
           <motion.div {...fadeInUp} className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-3 gap-8 mb-12">
-              <Card className="text-center hover:shadow-lg transition-shadow">
+              <Card className="text-center hover:shadow-lg transition-shadow p-0">
                 <CardContent className="p-6">
                   <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                     <Phone className="w-7 h-7 text-primary" />
@@ -968,7 +1090,7 @@ export default function MaquentalLanding() {
                 </CardContent>
               </Card>
 
-              <Card className="text-center hover:shadow-lg transition-shadow">
+              <Card className="text-center hover:shadow-lg transition-shadow p-0">
                 <CardContent className="p-6">
                   <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                     <Mail className="w-7 h-7 text-primary" />
@@ -978,7 +1100,7 @@ export default function MaquentalLanding() {
                 </CardContent>
               </Card>
 
-              <Card className="text-center hover:shadow-lg transition-shadow">
+              <Card className="text-center hover:shadow-lg transition-shadow p-0">
                 <CardContent className="p-6">
                   <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                     <MapPin className="w-7 h-7 text-primary" />
@@ -990,7 +1112,7 @@ export default function MaquentalLanding() {
             </div>
 
             <motion.div {...fadeInUp} className="mb-12">
-              <Card className="overflow-hidden">
+              <Card className="overflow-hidden p-0">
                 <CardContent className="p-0">
                   <div className="relative h-[400px] bg-muted">
                     {/* Placeholder for map - Replace the src with actual Google Maps embed URL */}
@@ -1009,7 +1131,7 @@ export default function MaquentalLanding() {
               </Card>
             </motion.div>
 
-            <Card className="bg-gradient-to-br from-ocean to-teal text-white">
+            <Card className="bg-gradient-to-br from-ocean to-teal text-white p-0">
               <CardContent className="p-8 text-center">
                 <h3 className="text-2xl font-bold mb-4">¿Listo para potenciar tu cultivo?</h3>
                 <p className="text-lg mb-6 opacity-90 leading-relaxed">
@@ -1040,9 +1162,7 @@ export default function MaquentalLanding() {
                     height={100}  
                     className="mx-auto"
                   />
-                </div>
-                {/* <Waves className="w-8 h-8" /> */}
-                {/* <span className="text-2xl font-bold">Maquental</span> */}
+                </div>                
               </div>
               <p className="opacity-80 leading-relaxed">
                 Bioestimulante naturales desde las costas de Mehuín para una agricultura sostenible.
@@ -1101,7 +1221,7 @@ export default function MaquentalLanding() {
             </div>
           </div>
 
-          <div className="border-t border-white/20 pt-8 text-center opacity-80">
+          <div className="border-t border-white/20 text-center opacity-80">
             <p>&copy; 2025 Maquental. Todos los derechos reservados.</p>
           </div>
         </div>
@@ -1119,7 +1239,7 @@ export default function MaquentalLanding() {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
       >
-        <MessageCircle className="w-7 h-7 text-white" />
+        <MessageCircleMore className="w-7 h-7 text-white" />
       </motion.a>
     </div>
   )
